@@ -1,4 +1,4 @@
-name: CI
+name: Pythran Compile
 
 on: [push]
 
@@ -11,7 +11,8 @@ jobs:
       fail-fast: false
       matrix:
 #        os: [macos-latest, windows-latest]
-        os: [macos-latest, windows-latest, ubuntu-latest]
+#        os: [macos-latest, windows-latest, ubuntu-latest]
+        os: [windows-latest, ubuntu-latest]
         python-version: [3.6, 3.7, 3.8]
     
     steps:
@@ -28,9 +29,18 @@ jobs:
         pythran test_lib.py
 
     - name: Move to subfolder 'artifacts'
+      if: startsWith(runner.os, 'Linux')
       run: |
         mkdir artifacts
-        mv *.pyd artifacts/*
+        ls
+        mv *.so artifacts/*
+
+    - name: Move to subfolder 'artifacts'
+      if: startsWith(runner.os, 'Windows')
+      run: |
+        mkdir artifacts
+        ls
+        mv "*.pyd" "artifacts"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v1
