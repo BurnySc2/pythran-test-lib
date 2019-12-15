@@ -52,7 +52,7 @@ jobs:
       run: |
         mkdir artifacts
         ls
-        mv *.so artifacts/*
+        mv *.so artifacts
 
     - name: Move to subfolder 'artifacts'
       if: startsWith(runner.os, 'Windows')
