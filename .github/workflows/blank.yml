@@ -41,7 +41,7 @@ jobs:
 
     - name: Pip install requirements
       run: |
-        pip install pythran
+        pip install -r requirements.txt
 
     - name: Compile script using pythran
       run: |
