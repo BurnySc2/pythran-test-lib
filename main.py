@@ -100,7 +100,7 @@ def pathfinding_automaton_test():
     path = astar.find_path(grid, {}, start, goal, True)
     print(path)
     with time_this("Test pathfinding"):
-        for n in range(10 ** 4):
+        for n in range(10 ** 3):
             astar.find_path(grid, {}, start, goal, True)
 
 
@@ -119,7 +119,7 @@ def pathfinding_basic_test():
     path = astar.find_path(grid, {}, start, goal, True)
     print(path)
     with time_this("Test pathfinding"):
-        for n in range(10 ** 4):
+        for n in range(10 ** 3):
             astar.find_path(grid, {}, start, goal, True)
 
 

@@ -1,29 +1,32 @@
-# https://gist.github.com/bellbind/224175
 import numpy as np
 
+# Enable this instead of the custom functions once pythran allows heapq operations
+# from heapq import heappush, heappop
+
+# https://gist.github.com/bellbind/224175
 # pythran export heappush((float, (int, int)) list, (float, (int, int)))
 def heappush(heap, val):
     cur = len(heap)
     heap.append(val)
-    while cur > 0:
+    while cur:
         parent = (cur - 1) // 2
         if heap[parent] <= heap[cur]:
-            break
+            return
         heap[cur], heap[parent] = heap[parent], heap[cur]
         cur = parent
 
 
 # pythran export heappop((float, (int, int)) list)
 def heappop(heap):
-    ret = heap[0]
     last = heap.pop()
+    if not heap:
+        return last
+    ret = heap[0]
     size = len(heap)
-    if size == 0:
-        return ret
     heap[0] = last
     cur = 0
     while True:
-        ch1 = 2 * cur + 1
+        ch1 = cur + cur + 1
         if ch1 >= size:
             return ret
         ch2 = ch1 + 1
@@ -37,12 +40,9 @@ def heappop(heap):
 # def in_bounds(self, position):
 #     return 0 <= position[0] < self.width and 0 <= position[1] < self.height
 
-# def heuristic_manhattan(self, source, target):
-#     return abs(source[0] - target[0]) + abs(source[1] - target[1])
-
 # pythran export find_path(int [:,:], (int, int):(int, int) dict, (int, int), (int, int))
 # pythran export find_path(int [:,:], (int, int):(int, int) dict, (int, int), (int, int), bool)
-def find_path(grid, came_from, source, target, allow_diagonal: bool = True):
+def find_path(grid, came_from, source, target, allow_diagonal=True):
     # type: (np.ndarray, Dict[Tuple[int, int], Tuple[int, int]], Tuple[int, int], Tuple[int, int], bool) -> (List[Tuple[int, int]])
     directions = [
         (0, 1, 1),
